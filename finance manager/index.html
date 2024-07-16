@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Financial Tools</title>
+    <link rel="stylesheet" href="index.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Add your styling here */
+        canvas {
+            max-width: 800px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Your Financial Tools</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="expense.html#expense">Expenses</a>
+        
+    </nav>
+
+    <section class="hero">
+        <h2>Welcome to Your Financial Tools Website!</h2>
+        <p>Explore our resources and tools to help you manage your personal finances more effectively.</p>
+    </section>
+
+    <main>
+        <section id="budgeting">
+            <h2>Budgets</h2>
+            <p>Take control of your finances with our powerful budgeting tools.</p>
+
+            <div class="expense-container">
+                <div class="larger-box">
+                    <!-- Content for the larger box goes here -->
+                    <h3><strong>BALANCE</strong></h3>
+                    <i class="fas fa-dollar-sign"></i>
+                    <p>Rs 10000</p>
+                </div>
+                <div class="smaller-box">
+                    <!-- Content for the smaller boxes goes here -->
+                    <h3><strong>Food</strong></h3>
+                    <i class="fas fa-utensils"></i>
+                    <p>Rs 0</p>
+                </div>
+
+                <div class="smaller-box">
+                    <!-- Content for the smaller boxes goes here -->
+                    <h3><strong>Entertainment</strong></h3>
+                    <i class="fas fa-gamepad"></i>
+                    <p>Rs 0</p>
+                </div>
+
+                <div class="smaller-box">
+                    <!-- Content for the smaller boxes goes here -->
+                    <h3><strong>Health-Care</strong></h3>
+                    <i class="fas fa-heart"></i>
+                    <p>Rs 0</p>
+                </div>
+
+                <div class="smaller-box">
+                    <!-- Content for the smaller boxes goes here -->
+                    <h3><strong>Travelling</strong></h3>
+                    <i class="fas fa-car"></i>
+                    <p>Rs 0</p>
+                    
+                </div>
+            </div>
+            <div class="graph">
+                <canvas id="expenseChart" width="200" height="200"></canvas>
+
+                <script>
+                    // Sample data for the chart
+                    var months = ['January', 'February', 'March', 'April', 'May', 'June'];
+                    var expenses = [1000, 1200, 800, 1500, 2000, 1700];
+    
+                    // Get the canvas element
+                    var ctx = document.getElementById('expenseChart').getContext('2d');
+    
+                    // Create the chart
+                    var myChart = new Chart(ctx, {
+                        type: 'line', // Use line chart
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                label: 'Monthly Expenses',
+                                data: expenses,
+                                fill: false, // Do not fill the area under the line
+                                borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                                borderWidth: 2 // Line width
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+                <canvas id="expenseBarChart" width="200" height="200"></canvas>
+    
+                <script>
+                    // Sample data for the bar chart
+                    var months = ['January', 'February', 'March', 'April', 'May', 'June'];
+                    var expenses = [1000, 1200, 800, 1500, 2000, 1700];
+            
+                    // Get the canvas element
+                    var ctx = document.getElementById('expenseBarChart').getContext('2d');
+            
+                    // Create the bar chart
+                    var myBarChart = new Chart(ctx, {
+                        type: 'bar', // Use bar chart
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                label: 'Monthly Expenses',
+                                data: expenses,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar color
+                                borderColor: 'rgba(75, 192, 192, 1)', // Border color
+                                borderWidth: 1 // Border width
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+
+            <!-- Canvas for the chart -->
+
+        </section>
+    </main>
+
+</body>
+</html>

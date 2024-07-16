@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Financial Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Your Financial Tools</h1>
+    </header>
+
+    <nav>
+        <a href="index.html#home">Home</a>
+        <a href="expense.html#expensetracking">Expenses</a>
+        
+    </nav>
+
+    <section class="hero">
+        <h2>Welcome to Your Financial Tools Website!</h2>
+        <p>Explore our resources and tools to help you manage your personal finances more effectively.</p>
+    </section>
+
+    <section class="content-container">
+        <section class="expense">
+            <div class="larger-box" id="balanceBox">
+                <h3>BALANCE</h3>
+                <p id="balanceContent">Initial Balance: $0</p>
+                <form id="addCashForm">
+                    <label for="purpose1">Purpose:</label>
+                    <input type="text" id="purpose1" name="purpose1" placeholder="Enter Purpose">
+
+                    <label for="category1">Category:</label>
+                    <select id="category1" name="category1">
+                        <option value="category1_option1">Food</option>
+                        <option value="category1_option2">Entertainment</option>
+                        <option value="category1_option3">Health</option>
+                        <option value="category1_option4">Travel</option>
+                    </select>
+
+                    <label for="amount1">Amount:</label>
+                    <input type="number" id="amount1" name="amount1" placeholder="Enter Amount">
+
+                    <label for="date1">Date:</label>
+                    <input type="date" id="date1" name="date1">
+
+                    <button type="submit">Add Cash</button>
+                </form>
+            </div>
+            <div class="larger-box">
+                <h3>Expenditure</h3>
+                <p>Content of the box</p>
+                <form id="addExpenseForm">
+                    <label for="purpose2">Purpose:</label>
+                    <input type="text" id="purpose2" name="purpose2" placeholder="Enter Purpose">
+
+                    <label for="category2">Category:</label>
+                    <select id="category2" name="category2">
+                        <option value="category2_option1">Food</option>
+                        <option value="category2_option2">Entertainment</option>
+                        <option value="category2_option3">Health</option>
+                        <option value="category2_option4">Travel</option>
+                    </select>
+
+                    <label for="amount2">Amount:</label>
+                    <input type="number" id="amount2" name="amount2" placeholder="Enter Amount">
+
+                    <label for="date2">Date:</label>
+                    <input type="date" id="date2" name="date2">
+
+                    <button type="submit">Add Expense</button>
+                </form>
+            </div>
+        </section>
+    </section>
+
+    <section class="graph-and-table">
+        <div class="table-container">
+            <table class="style-table" id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Purpose</th>
+                        <th>Category</th>
+                        <th>Transaction</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="graph-container">
+            <canvas id="dailyBalanceChart" width="400" height="200"></canvas>
+        </div>
+    </section>
+</section>
+
+<script>
+    // Initialize the balance
+    var totalBalance = 0;
+
+    // Sample data for the chart
+    var days = [];
+    var dailyBalance = [];
+    var totalBalancePerDay = [];
+    var myChart; // Variable to store the chart instance
+
+    // Function to update the balance content
+    function updateBalance() {
+        var balanceContent = document.getElementById('balanceContent');
+        balanceContent.textContent = 'Total Balance: Rs' + totalBalance;
+    }
+
+    // Function to add a new transaction to the table
+    function addTransaction(purpose, category, amount, date, transactionType) {
+        var table = document.getElementById('transactionTable').getElementsByTagName('tbody')[0];
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+
+        cell1.textContent = purpose;
+        cell2.textContent = category;
+        cell3.textContent = transactionType === 'cash' ? '+' + amount : '-' + amount;
+        cell4.textContent = date;
+
+        // Update the daily balance chart
+        updateDailyBalanceChart(date, amount, transactionType);
+    }
+
+    // Function to update the daily balance chart
+    function updateDailyBalanceChart(date, amount, transactionType) {
+        // Find the index of the date in the days array
+        var index = days.indexOf(date);
+
+        if (index === -1) {
+            // Date not found, add it to the days array
+            days.push(date);
+
+            // Calculate the daily balance
+            var dailyBalanceValue = transactionType === 'cash' ? amount : -amount;
+            var totalBalanceValue = transactionType === 'cash' ? amount : -amount;
+
+            dailyBalance.push(dailyBalanceValue);
+            totalBalancePerDay.push(totalBalanceValue);
+        } else {
+            // Date found, update the existing daily balance
+            dailyBalance[index] += transactionType === 'cash' ? amount : -amount;
+            // Update the existing total balance for the day
+            totalBalancePerDay[index] += transactionType === 'cash' ? amount : -amount;
+        }
+
+        // Update the daily balance chart
+        updateChart();
+    }
+
+    // Function to initialize or update the daily balance chart
+    function updateChart() {
+        var ctx = document.getElementById('dailyBalanceChart').getContext('2d');
+
+        // Clear the existing chart instance if it exists
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        // Create a new chart with updated data
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [
+                    {
+                        label: 'Daily Balance',
+                        data: dailyBalance,
+                        fill: false,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Total Balance',
+                        data: totalBalancePerDay,
+                        fill: false,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Function to handle adding cash
+    function addCash() {
+        var amount = parseFloat(document.getElementById('amount1').value);
+        var date = document.getElementById('date1').value;
+        if (!isNaN(amount) && date) {
+            totalBalance += amount;
+            updateBalance();
+            addTransaction(document.getElementById('purpose1').value, document.getElementById('category1').value, amount, date, 'cash');
+            updateChart();
+        }
+    }
+
+    // Function to handle adding expenses
+    function addExpense() {
+        var amount = parseFloat(document.getElementById('amount2').value);
+        var date = document.getElementById('date2').value;
+        if (!isNaN(amount) && date) {
+            totalBalance -= amount;
+            updateBalance();
+            addTransaction(document.getElementById('purpose2').value, document.getElementById('category2').value, amount, date, 'expense');
+            updateChart();
+        }
+    }
+
+    // Add event listeners to the forms
+    document.getElementById('addCashForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        addCash();
+    });
+
+    document.getElementById('addExpenseForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        addExpense();
+    });
+</script>
+
+</body>
+</html>

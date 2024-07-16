@@ -1,0 +1,110 @@
+/* Existing styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+nav {
+    background-color: #444;
+    padding: 0.5em 0;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1em;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+main {
+    max-width: 1500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section.hero {
+    background-image: url('hero-image.jpg');
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px 20px;
+    margin-bottom: 20px;
+}
+
+section.hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+section.hero p{
+    text-align: center;
+}
+
+section.features,
+section.insights,
+section.tools,
+section.contact {
+    margin-bottom: 40px;
+}
+
+.tool,
+.insight {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+    background-color: #eee;
+    text-align: center;
+}
+
+/* Add these styles to your existing CSS */
+
+.expense-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr; /* Adjust the column ratios as needed */
+    gap: 20px; /* Adjust the gap between items */
+}
+
+.larger-box {
+    grid-column: 1 / span 1.5; /* Span 1.5 columns for the larger box */
+    background-color: #eee;
+    padding: 50px; /* Adjust the padding to increase the height */
+    text-align: center;
+    text-size-adjust: 10px;
+}
+
+.smaller-box {
+    grid-column: span 1; /* Each smaller box spans 1 column */
+    background-color: #eee;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+
+.graph {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 100px;
+    align-items: center;
+}
+
